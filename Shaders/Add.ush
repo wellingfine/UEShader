@@ -1,0 +1,4 @@
+float4 a=A;
+float4 b=B;
+float4 r=a+b;
+return r;
