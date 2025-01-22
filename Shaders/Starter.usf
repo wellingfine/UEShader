@@ -1,0 +1,12 @@
+
+float3 Test1(float3 a){
+  return a*a;
+}
+
+float3 Test2(float3 a){
+  return a+0.2;
+}
+
+
+
+
