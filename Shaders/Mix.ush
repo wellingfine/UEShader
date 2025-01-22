@@ -1,0 +1,15 @@
+
+float3 green(float3 a){
+  return float3(0,1,0);
+}
+
+float3 red(float3 a){
+  return float3(1,0,0);
+}
+
+
+float3 blue(float3 a){
+  return float3(0,0,1);
+}
+
+
