@@ -1,0 +1,5 @@
+float4 r;
+
+r=(uv.x*uv.y+0.5,uv.x*uv.y,0,1);
+
+return r;
