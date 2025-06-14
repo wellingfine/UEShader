@@ -6,7 +6,7 @@
 
 void FShaderLabModule::StartupModule() {
 	FString ShaderDirectory = FPaths::Combine(FPaths::ProjectDir(), TEXT("Shaders"));
-	AddShaderSourceDirectoryMapping("/Project", ShaderDirectory);
+	AddShaderSourceDirectoryMapping("/Shaders", ShaderDirectory);
 }
 
 void FShaderLabModule::ShutdownModule(){
