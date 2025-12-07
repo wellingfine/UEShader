@@ -1,0 +1,17 @@
+
+# worldPos -> Absolute World Position : 使用绝对位置的话，不会随物体动而动
+# worldPos-object Position ->这个才会随着物体动而动
+# viewDir -> Camera Vector
+# sphereCenter,sphereRadius,rayStep
+float3 rayOrigin = viewDir - worldPos;
+float3 rayStep = viewDir *1;
+# 
+for(int i=0;i<256;i++) {
+    float dist= length(rayOrigin-sphereCenter)-sphereRadius;
+    if(dist<0.01) {
+        return float3(1,0,0);
+    }
+    rayOrigin+=rayStep;
+}
+
+return float3(0,0,0);

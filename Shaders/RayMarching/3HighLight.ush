@@ -1,0 +1,25 @@
+# 比上一个例子多了光照 ,光照方向反了
+# sphereCenter,sphereRadius,rayStep
+float3 rayOrigin = worldPos - viewDir;
+float3 rayStep = viewDir * 1;
+
+# lightPos-> 节点 SkyAtmosphereLightDirection[0]
+float3 lightDirection = normalize(lightPos);
+# 
+for(int i = 0;
+    i < 256;
+    i ++) {
+    float dist = length(rayOrigin - sphereCenter) - sphereRadius;
+    if(dist < 0.01) {
+        float3 normal = normalize(rayOrigin - displace); // 这里换成displace
+        float diffuse = max(dot(normal, lightDirection), 0);
+        float3 reflection = reflect(lightDirection, normal);
+        float3 viewDirection = normalize(worldPos - rayOrigin);
+        float specular = pow(max(dot(reflection, viewDirection), 0), 16);
+        return diffuse * float3(1, 0, 0) + (specular * float3(1, 1, 1));
+    }
+    outputOpacityMask = 0;
+    rayOrigin += rayStep;
+}
+outputOpacityMask = 1;
+return float3(0, 0, 0);

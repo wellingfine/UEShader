@@ -1,0 +1,21 @@
+# 比上一个例子多了光照 ,光照方向反了
+# sphereCenter,sphereRadius,rayStep
+float3 rayOrigin = viewDir - worldPos;
+float3 rayStep = viewDir * 1;
+
+float3 lightDirection = normalize(lightPos);
+# 
+for(int i = 0;
+    i < 256;
+    i ++) {
+    float dist = length(rayOrigin - sphereCenter) - sphereRadius;
+    if(dist < 0.01) {
+        float3 normal = normalize(rayOrigin - sphereCenter);
+        float diffuse = max(dot(normal, lightDirection), 0);
+        return diffuse * float3(1, 0, 0);
+    }
+    outputOpacityMask = 0;
+    rayOrigin += rayStep;
+}
+outputOpacityMask = 1;
+return float3(0, 0, 0);
