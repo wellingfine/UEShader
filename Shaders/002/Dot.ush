@@ -1,0 +1,16 @@
+
+
+// 测试一下
+// pos.x = pos.x + 0.2;
+
+// 注意这里已经是 float 了，所以只剩黑白
+float d = length(pos - uv);
+
+// 
+// 做一个明显的边缘
+d = step(d, 0.5);
+
+// 或者这样
+float x = d < 0.1;
+
+return x;
