@@ -1,5 +1,7 @@
 float2 uv2 = frac(uv * gridSize);
 
+// 注意length之后，会变成 一维
+// 但显卡显示的时候会把三种色值都设置成一样，例如 0.2=>(0.2,0.2,0.2)
 float x = step(length(pos - uv2), 0.5);
 
 return x;
