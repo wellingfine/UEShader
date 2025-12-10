@@ -1,0 +1,5 @@
+float2 uv2 = frac(uv * gridSize);
+
+float x = step(length(pos - uv2), 0.5);
+
+return x;
