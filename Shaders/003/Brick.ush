@@ -1,0 +1,9 @@
+
+// 可以这样写
+float2 r = frac(float2(uv.x * grid.x, uv.y * grid.y));
+
+// 也能直接相乘，各维各乘各的
+// 这样再加一个值也行，就是所有维度加上这个值
+r = frac(uv * grid) + 0.2;
+
+return r;

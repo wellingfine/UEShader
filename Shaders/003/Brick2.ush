@@ -1,0 +1,6 @@
+
+// 
+float2 r = frac(float2(uv.x * grid.x, uv.y * grid.y));
+
+//
+return r;
