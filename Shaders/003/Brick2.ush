@@ -1,6 +1,15 @@
 
-// 
-float2 r = frac(float2(uv.x * grid.x, uv.y * grid.y));
+// 如果是正方体，要边缘好看，那就得偏移一下
+// float2 offset = float2(0.3, 0);
 
 //
-return r;
+float2 tex = frac(float2(uv.x * grid.x + offset.x, uv.y * grid.y + offset.y));
+
+// 这里uv就是一个坐标值，x通道就是从左到右 0到1，y通道就是从上到下0到1
+// 默认显示就是
+// r就是uv经过分区之后的坐标值
+if(tex.x < gap.x && tex.y < gap.y) {
+return colBrick;
+}
+// 
+return colGap;
