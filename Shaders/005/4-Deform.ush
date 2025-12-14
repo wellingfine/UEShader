@@ -1,6 +1,5 @@
 
-// 增加高光
-// 这个高光有点怪
+// 增加变形
 
 float3 rayOrigin=worldPos-viewDir;
 float3 rayStep=viewDir*-1;
@@ -8,17 +7,24 @@ float3 rayStep=viewDir*-1;
 float3 lightDir=normalize(lightPos);
 
 for(int i=0;i<count;i++) {
-    float dist=length(rayOrigin-sphereCenter)-sphereRadius;
+    // 加一些偏移
+    float displace=sphereCenter+
+    (
+        sin(rayOrigin.x)*sin(time)/2 + 
+        sin(rayOrigin.y)*sin(time)/2 + 
+        sin(rayOrigin.z)*sin(time)/2);
+
+    float dist=length(rayOrigin-displace)-sphereRadius;
 
     opacityMask=1;
     if(dist<0.01) {
-        float3 normal = normalize(rayOrigin-sphereCenter);
+        // 看不出太大区别
+        float3 normal = normalize(rayOrigin-displace);
         float diffuse=max(dot(normal,lightDir),0);
 
-        // 增加
         float3 reflection=reflect(lightDir,normal);
         float3 viewDirection=-normalize(worldPos-rayOrigin);
-        float specular=pow(max(dot(reflection,viewDirection),0),16);  // pow越大，则高光越小
+        float specular=pow(max(dot(reflection,viewDirection),0),16);
 
         return (diffuse*float3(1,0,0)) + (specular*float3(1,1,1));
     }

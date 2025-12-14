@@ -1,0 +1,10 @@
+struct ColorTest {
+    float3 show(int r,int g,int b) {
+        return float3(r,g,b); // 注意类型
+    }
+}; //注意分号
+
+// 需要先定义
+ColorTest ct;
+
+return ct.show(1,1,0);
