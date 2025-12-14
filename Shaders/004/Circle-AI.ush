@@ -1,0 +1,22 @@
+// 改进版本
+float result = 0.0;
+float angleStep = 6.28318530718 / float(count);  // 2 * PI
+float threshold = size * size;  // 使用平方距离避免开方
+
+for(int i = 0; i < count; i++) {
+    float angle = float(i) * angleStep;
+
+    // 计算单位圆上的位置
+    float2 offset;
+    sincos(angle, offset.y, offset.x);  // 更高效
+
+    // 计算小圆点中心
+    float2 pos = center + radius * offset;
+
+    // 使用平方距离优化
+    float2 delta = pos - uv;
+    if(dot(delta, delta) < threshold) {
+        result += 1.0;
+    }
+}
+return result;
