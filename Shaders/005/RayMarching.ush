@@ -1,0 +1,22 @@
+
+// 光线步进
+// add1: worldPos基于绝对位置，如果物体不在零点，会看不到圆点；传入变量的时候可以先计算出worldPos
+
+float3 rayOrigin=viewDir-worldPos;
+float3 rayStep=viewDir*1;
+
+// count>100 左右才能看到圆点
+for(int i=0;i<count;i++) {
+    float dist=length(rayOrigin-sphereCenter)-sphereRadius;
+
+    // add2: 加一个mask，使得圆点外的东西看不到
+    opacityMask=1;
+    if(dist<0.01) {
+        return float3(1,0,0);
+    }
+
+    rayOrigin+=rayStep;
+}
+opacityMask=0;
+
+return float3(0,0,0);
