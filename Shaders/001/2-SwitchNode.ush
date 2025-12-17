@@ -1,0 +1,12 @@
+
+int intPick=int(pick);
+float4 inputTex=Texture2DSample(texObject,texObjectSampler,uv);
+
+float3 mask=float3(intPick&4,intPick&2,intPick&1);
+
+// 这样写会错，因为mask 是float3，乘一个维度它就得到3个维度；
+// 这行会提示变成了9个维度
+// return float3(mask*inputTex.r,mask*inputTex.g,mask*inputTex.b);
+
+// 所以要各维和各维相乘
+return float3(mask.r*inputTex.r,mask.g*inputTex.g,mask.b*inputTex.b);
