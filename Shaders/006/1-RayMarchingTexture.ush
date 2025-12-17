@@ -1,13 +1,15 @@
 
 // 光线步进应用
-float3 rayStep=-viewDir;
-float4 inputTex=Texture2DSample(texObject,texObjectSampler,uv);
+float3 rayStep=-viewDir; // 反向步进
+
+// 这里 texObjectSampler 含有宏的隐式定义
+float4 inputTex=Texture2DSample(texObject,texObjectSampler,uv); //初始化纹理采样
 
 for(int i=0;i<25; i++) {
     if(inputTex.r>0.1 && inputTex.g>0.1&&inputTex.b>0.1) {
         return float3(i,0,0);
     }
-    uv+=rayStep*0.15;
+    uv+=rayStep*0.15; // 这里运行之后，uv会升为3维，所以下面用uv.xy
     inputTex=Texture2DSample(texObject,texObjectSampler,uv.xy);
 }
 return inputTex;

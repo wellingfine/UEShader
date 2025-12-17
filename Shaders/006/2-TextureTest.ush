@@ -1,0 +1,26 @@
+
+// 这里通过把循环拆开，可以直观感受到层级的变化
+
+// 首先第一层，把亮的区域返回纯色值
+// 从人的角度去想，可以说是先把图中的亮区域先处理完，再处理其它区域
+float4 inputTex=Texture2DSample(texObject,texObjectSampler,uv);
+if(inputTex.r>0.1 && inputTex.g>0.1&&inputTex.b>0.1) {
+    return float3(0.1,0,0);
+}
+
+// 到下一个区域的时候，xy坐标都+0.1，表示向左上角偏移
+// 从上一个步聚中剩余的区域，再找亮的区域，返回稍亮的纯色
+uv+=0.1;
+inputTex=Texture2DSample(texObject,texObjectSampler,uv);
+if(inputTex.r>0.1 && inputTex.g>0.1&&inputTex.b>0.1) {
+    return float3(0.2,0,0);
+}
+
+// 再到下一个区域的时候，再向左上角偏移
+// 又从上一个步聚中剩余的区域，再找亮的区域，返回更亮的纯色
+uv+=0.1;
+inputTex=Texture2DSample(texObject,texObjectSampler,uv);
+if(inputTex.r>0.1 && inputTex.g>0.1&&inputTex.b>0.1) {
+    return float3(0.3,0,0);
+}
+return inputTex;
