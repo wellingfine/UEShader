@@ -1,0 +1,48 @@
+
+struct Distort{
+  float2 scale(float2 uv,float2 scale){
+    float2 s=(uv-0.5)*scale+0.5;
+    return s;
+  }
+  float2 rotate(float2 uv,float angle){
+    float2x2 m=float2x2(
+      cos(angle), sin(angle),
+      -sin(angle),cos(angle)
+    );
+    return mul(uv-0.5,m)+0.5;
+  }
+  // time 是可以和外层同名的，但优先局部变量
+  // 
+  float2 mix1(float2 uv,float time){
+    float angle=atan2(uv.y-0.5 , uv.x-0.5);
+    float radius=length(uv-0.5);
+    float d=4*sin(3*radius+2*time);    
+    return rotate(uv,d);
+  }
+
+  // 
+  float2 mix2(float2 uv,float time){
+    float angle=atan2(uv.y-0.5 , uv.x-0.5);
+    float radius=length(uv-0.5);
+    float d=4*sin(3*radius+2*time);
+    float primDist=sin(6*angle)*d;
+    
+    return rotate(uv,primDist);
+  }
+
+  // 这里需要传入贴图和采样器，类型要注意
+  float3 mix3(Texture2D tex, SamplerState texSampler,float2 uv,float time,float3 step){
+    float3 c;
+    for(int i=0;i<5;i++){
+      c=Texture2DSample(tex,texSampler,mix2(uv,time));
+      if (c.r>0.1 && c.g>0.1 && c.b>0.1){
+        return c;
+      }
+      uv+= -step *1.5;
+    }
+    return c;
+  }
+};
+
+Distort d; // usf 的话，custom节点可以直接使用
+
