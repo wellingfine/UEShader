@@ -1,0 +1,56 @@
+
+// 画一个实心点
+// 圆的动画
+
+float4 result = float4(0, 0, 0, 0);
+
+float2 pointCtrl = float2(0.5, 0.5);
+
+float2 uvOffset = uv - pointCtrl;
+
+float duration = 1.0;
+float radiusMin = 0.05;
+float radiusMax = 0.2;
+float fadeInner = 0.1;
+float fadeOuter = 0.2;
+float rightThickness = 0.005; // 圆环厚度
+
+float2 seed = float2(123.456, 789.012);
+float2 offsetRange = float2(-1, 1);
+
+float drops = 10;
+for (int i = 0; i < drops; i++)
+{
+  seed = frac(seed * 123.456); // 每次循环的时候，随机值都会改变
+  // seed取值范围大概需要在 0.25-0.75 ，不然就在范围外了
+
+  float2 randOffset = lerp(offsetRange.x, offsetRange.y, seed);
+
+  float cycle = duration + frac(randOffset.x); // 原代码 frac(randOffset) 得到结果是float2，一般来说会出错
+  // 以上随机值每帧运行后，每次循环都会计算出一样的值，
+  // 只有pulse是随时间变化，就是控制圆环的大小变化
+  float pulse = frac(time / cycle); // 相当于1以内随机数
+
+  // 随机半径。内半径
+  float radius = radiusMin + pulse * (radiusMax - radiusMin);
+
+  float2 offset = (uv - 0.5) - randOffset;
+  float pointDist = length(offset);
+
+  // 外半径，每个圆的大小不一样
+  // float radiusLimit = radiusMin + seed.y * (radiusMax - radiusMin);
+  float radiusLimit = radiusMax; // 两种看起来没啥区别，因为 radiusMax - radiusMin 没差多远
+
+  float alpha = saturate(smoothstep(radius - fadeInner,
+                                    radius + fadeInner, pointDist));
+
+  // 没太大区别
+  // alpha *= saturate(1 - smoothstep(radiusLimit - fadeOuter, radiusLimit + fadeOuter, pointDist));
+
+  if (pointDist >= radius - rightThickness &&
+      pointDist <= radius + rightThickness)
+  {
+    result += alpha;
+  }
+}
+return result;
