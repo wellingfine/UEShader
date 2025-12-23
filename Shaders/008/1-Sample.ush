@@ -1,0 +1,13 @@
+
+// 格栅化，像素化
+int gridArr[5][5] = {
+    {0, 0, 0, 0, 0},
+    {0, 1, 0, 0, 0},
+    {0, 0, 1, 0, 0},
+    {0, 0, 0, 1, 0},
+    {0, 0, 0, 0, 1},
+};
+
+float2 uvGrid = floor(uv * 5);
+
+return gridArr[int(uvGrid.y)][int(uvGrid.x)];

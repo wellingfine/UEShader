@@ -1,0 +1,25 @@
+// 图片像素化
+
+float2 gridSize = float2(30, 30);
+
+float border = 0.25;
+
+// float2 uvGrid = frac(uv * gridSize) /  gridSize; // 这个是每格里面都是渐变
+float2 uvGrid = floor(uv * gridSize) / gridSize; // 先扩大取整，已经分格了，但后面的值大于1即纯白，虽缩小回0~1
+
+// 这个巧妙的计算了黑色出来，小于
+// border 如果大于 frac ，那就是0，否则1；
+// 所以运行之后，相当于中间就变成了全1，边框变0
+float2 gridBorder = step(border, frac(uv *gridSize)) *
+                    step(frac(uv * gridSize), 1 - border);
+
+// 这里采样的是分格，无边框
+float3 result = Texture2DSample(tex, texSampler, uvGrid);
+
+// 因为中间都是1，边框是0，那乘出来的结果就只保留了中间的图像
+result *= float(gridBorder.x * gridBorder.y);
+
+// 将带边框的网格颜色转换为灰度（标准亮度公式：R0.299 + G0.587 + B*0.114）。
+// 如果用于 Emissive Color 或 Base Color，会得到灰度版本；如果用于 Opacity，可能作为掩码使用
+// 不需要这句也行的
+return dot(result, float3(.299, .587, .114));
