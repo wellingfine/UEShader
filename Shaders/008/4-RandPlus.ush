@@ -1,0 +1,31 @@
+
+// 结合前面几个例子，增加了随机色块替换
+
+struct Rand
+{
+  float run(float2 uv)
+  {
+    return frac(sin(dot(uv, float2(12.34, 56.78))) * 55555);
+  }
+};
+Rand r;
+
+float2 gridSize = float2(32, 32);
+float2 uvGrid = floor(uv * gridSize) / gridSize;
+float thickness = 0.25;
+float2 blockBorder = step(thickness, frac(uv *gridSize)) *
+                     step(frac(uv * gridSize), 1 - thickness);
+
+float3 result = Texture2DSample(tex, texSampler, uvGrid);
+result *= float(blockBorder.x * blockBorder.y);
+
+if (dot(result, float3(.299, .587, .144)) > 0)
+{
+  // 如果亮度较大，就替换，前面拿到的result 已经是像素化之后的值了
+  result = float3(
+      r.run(uvGrid + frac(1.23)),
+      r.run(uvGrid + frac(4.56)),
+      r.run(uvGrid + frac(7.89)));
+}
+
+return result;

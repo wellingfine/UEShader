@@ -1,0 +1,19 @@
+// 制作随机
+
+struct Rand
+{
+
+  float run(float2 uv)
+  {
+    return frac(sin(dot(uv, float2(12.34, 56.78))) * 55555);
+  }
+};
+Rand r;
+
+float2 gridSize = float2(64, 64);
+
+float2 uvGrid = floor(uv * gridSize);
+
+float result = r.run(uvGrid) < 0.5 ? 1 : 0;
+
+return result;
