@@ -1,0 +1,18 @@
+
+float f = 20;
+float a = 0.1;
+
+float result = 0;
+// 圆形交错
+// result = frac(sin(uv.x * f) + sin(uv.y * f)) * a;
+
+// 铁丝网一样
+// result = abs(sin(uv.x * f) + sin(uv.y * f)) * a;
+
+// 圆点
+// result = floor(sin(uv.x * f) + sin(uv.y * f)) * a; // or ceil
+
+// 和floor 差别巨大，黑白中间还有圆
+result = ceil(sin(uv.x * f) + sin(uv.y * f)) * a;
+
+return result;

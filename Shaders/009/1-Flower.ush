@@ -1,0 +1,21 @@
+
+// 这段代码的原理来源于经典的极坐标花形公式
+
+uv = uv * 2.0 - 1.0; // 居中 UV 到 -1~1
+
+float3 result = float3(0, 0, 0);
+
+float dist = length(uv);
+
+float size = 1;
+float petals = 6; // 花瓣数量
+float thickness = 0.3;
+// float inset = 0.5;
+float inset = sin(time); // 变大变小
+
+if (dist <= thickness * (size + inset * sin(petals * atan2(uv.y, uv.x))))
+{
+  result = float3(1, 1, 1);
+}
+
+return result;
