@@ -1,0 +1,22 @@
+
+// 要物体的点振动得没有锯齿感，就需要模型的面数够多
+#define PI 3.14159
+
+float freqX = 6;
+float freqY = 2;
+float dirX = 6;
+float dirY = 3;
+float speed = 1;
+float amp = 0.5;
+
+float waveX1 = sin((uv.x * freqX + time * speed) * 2 * PI) * amp;
+float waveY1 = sin((uv.y * freqY + time * speed) * 2 * PI) * amp;
+
+float waveX2 = sin((uv.x * freqX + uv.y * dirX + time * speed) * 2 * PI) * amp;
+float waveY2 = sin((uv.y * freqY + uv.x * dirY + time * speed) * 2 * PI) * amp;
+
+float combinedWaves = (waveX1 + waveY1 + waveX2 + waveY2) / 4 + 0.5;
+
+normal = normalize(cross(ddx(awp), ddy(awp)));
+
+return combinedWaves;

@@ -1,0 +1,17 @@
+
+float2 center = float2(0.5, 0.5);
+float dist = distance(uv, center);
+
+float3 colorR = float3(1, 0, 0);
+float3 colorG = float3(0, 1, 0);
+float3 colorB = float3(0, 0, 1);
+
+float3 color;
+
+// 通过step优化if 语句
+color = colorR * (1 - step(0.2, dist)) +
+        colorG * (step(0.2, dist) - step(0.4, dist)) +
+        colorB * (step(0.4, dist) - step(0.6, dist)) +
+        colorB * step(0.6, dist);
+
+return color;
