@@ -1,0 +1,27 @@
+
+// 带光处理的风格化
+
+// LightDir=SkyAtmosphereLightDirection[0]
+// NormalWS=
+
+float lightIntensity = max(dot(NormalWS, LightDir), 0);
+
+float3 color;
+// 这种就有明显的分层，需要调校配色，才有好的效果
+// 分三层色调，每层色调又可以决定
+if (lightIntensity > High)
+{
+  color = HighLightTint;
+}
+else if (lightIntensity > Mid)
+{
+  color = MidTint;
+}
+else
+{
+  color = ShadowTint;
+}
+
+// return lightIntensity > 0.5; // 只有大于半光才返回，这样阴影直接不过渡，像二次元
+
+return color;

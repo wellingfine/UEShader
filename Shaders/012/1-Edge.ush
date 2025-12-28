@@ -1,0 +1,12 @@
+
+// 直接拿到边缘
+
+// NormalWS = PixelNormalWS
+
+float edgeDetails = length(ddx(NormalWS)) +
+                    length(ddy(NormalWS));
+
+edgeDetails /= (Thickness / 100);
+edgeDetails = (edgeDetails - 0.5) * Contrast + 0.5;
+
+return saturate(edgeDetails);
