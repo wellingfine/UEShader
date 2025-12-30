@@ -1,0 +1,22 @@
+// 镜头滤镜
+
+float intensity = 1;
+
+float zoom = 1;
+
+float k1 = 0.85;
+float k2 = 0.65;
+float k3 = 0.30;
+
+float2 centerOffset = float2(0, 0);
+
+float2 centerUV = ((uv - 0.5) * 2 - centerOffset) / zoom;
+
+float rSq = dot(centerUV, centerUV);
+
+float model = 1 + rSq * (k1 + rSq * (k2 + rSq * k3));
+float distort = 1 + (model - 1) * intensity;
+
+float2 distortedUV = centerUV * distort * 0.5 + 0.5;
+
+return distortedUV;
